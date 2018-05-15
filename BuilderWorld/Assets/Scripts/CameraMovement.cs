@@ -9,6 +9,8 @@ public class CameraMovement : MonoBehaviour
     public float maxShift = 25.0f; //Maximum speed when holdin gshift
     public float camSens = 1.5f; //How sensitive it with mouse
 
+    public GameObject editTool;
+
     private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
     private float totalRun = 1.0f;
 
@@ -19,8 +21,9 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+        UpdateEditPos();
         //When clicked lock again the mouse
-        if (Input.GetMouseButtonDown(0) )
+        if (Input.GetMouseButtonDown(0) && Cursor.lockState != CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -33,7 +36,6 @@ public class CameraMovement : MonoBehaviour
         //Mouse  camera angle done.  
 
         //Keyboard commands
-        float f = 0.0f;
         Vector3 p = GetBaseInput();
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -56,13 +58,13 @@ public class CameraMovement : MonoBehaviour
         { 
             //If player wants to move on X and Z axis only
             transform.Translate(p);
-            newPos.x = transform.position.x;
-            newPos.z = transform.position.z;
-            transform.position = newPos;
         }
         else
         {
             transform.Translate(p);
+            newPos.x = transform.position.x;
+            newPos.z = transform.position.z;
+            transform.position = newPos;
         }
     }
 
@@ -92,6 +94,10 @@ public class CameraMovement : MonoBehaviour
         return p_Velocity;
     }
 
+    void UpdateEditPos()
+    {
+        //editTool.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 0.3f, this.transform.position.z + 1.5f);
+    }
 }
 
 //    {
